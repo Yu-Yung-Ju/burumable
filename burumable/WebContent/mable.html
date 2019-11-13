@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Blue Marble</title>
+
+<!-- Latest compiled and minified CSS -->
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+
+<style>
+.playerChar{
+	 font-weight: bold;
+	 font-size:35px;
+}
+
+
+.marble_board {
+	background-image: url("./board/b1.jpg");
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-size: 98.8%;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+}
+
+.no_border {
+	border: none !important;
+}
+
+.boaard_floor {
+	background: lightblue;
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+							<b>🐶&nbsp;&nbsp;&nbsp;&nbsp;</b>
+							<b>🦍&nbsp;&nbsp;&nbsp;&nbsp;</b>
+							<b>🐥&nbsp;&nbsp;&nbsp;&nbsp;</b>
+							<b>😼&nbsp;&nbsp;&nbsp;&nbsp;</b>
+<script>
+$(document).ready(function(){
+	window.addEventListener("load",	function() {
+//--------------------------------------------------------SRC---------------------------------------------------
+	let face1 = new Image()
+		face1.src="/burumable/board/fcae1.png"
+	let face2 = new Image()
+		face2.src="/burumable/board/fcae2.png"
+	let face3 = new Image()
+		face3.src="/burumable/board/fcae3.png"
+	let face4 = new Image()
+		face4.src="/burumable/board/fcae4.png"
+	let face5 = new Image()
+		face5.src="/burumable/board/fcae5.png"
+	let face6 = new Image()
+		face6.src="/burumable/board/fcae6.png"
+//--------------------------------------------------------SRC---------------------------------------------------
+	//let money = 10000000; //시작 재화
+	let	beforePoint1 = 1; //1p 전의 위치
+	let	beforePoint2 = 1; //2p 전의 위치
+	let	beforePoint3 = 1; //3p 전의 위치
+	let	beforePoint4 = 1; //4p 전의 위치
+	
+	let	afterPoint1 = 1; //1p 현재 위치 
+	let	afterPoint2 = 1; //2p 현재 위치 
+	let	afterPoint3 = 1; //3p 현재 위치 
+	let	afterPoint4 = 1; //4p 현재 위치 
+	// after / beforeId는 보드판 위치
+//----------------------------------------------------------------------------------------------------------------------------Player-----------------------------------------------------------------------------------------------------------
+	let mywork = {}; //누구 차례인지
+	let turn = 1; // 1~4번 순서대로 주사위를 던짐
+	//let round = 1; // 4명의 플레이어가 주사위를 모두 던지면 ++
+	let player1 = {
+			afterPoint1 : 1,
+			beforePoint1 : 1,
+			beforeId1 : "#p1",
+			afterId1 : "#p1",
+
+	}
+	let player2 = {
+			afterPoint2 : 1,
+			beforePoint2 : 1,
+			beforeId2 : "#p1",
+			afterId2 : "#p1",
+			
+	}
+	
+	let player3 = {
+			afterPoint3 : 1,
+			beforePoint3 : 1,
+			beforeId3 : "#p1",
+			afterId3 : "#p1",
+
+	}
+	
+	let player4 = {
+			afterPoint4 : 1,
+			beforePoint4 : 1,
+			beforeId4 : "#p1",
+			afterId4 : "#p1",
+
+	}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
+	
+	let play = document.querySelector("#play"); 						
+	
+	play.addEventListener("click",function() {
+		let ran = Math.floor((Math.random() * 6) + 1);
+		let ran1 = Math.floor((Math.random() * 6) + 1);	
+		
+		document.images["mydice"].src=eval("face"+ran+".src")
+		document.images["mydice1"].src=eval("face"+ran1+".src")
+		
+		let totalran = ran + ran1; 
+		
+		document.querySelector("#dice").value = totalran;
+// 		document.querySelector("#point").value = afterPoint;
+		
+		// 말을 이동시킵니다.
+		if(turn == 1){ //첫번째 턴이면 플레이어 1 이 이동
+			if (beforePoint1 + totalran < 40) { //37 + 10 = 47 < 40 
+				afterPoint1 = beforePoint1 + totalran; //47 = 37 + 10 
+			} else {
+				afterPoint1 = beforePoint1 + totalran - 40; // ap = 37 + 10 - 40
+			}
+			afterId1 = "#p" + afterPoint1;
+			document.querySelector(afterId1).innerHTML ='<b class ="playerChar" id = "player1">🐶</b>';
+			mywork = player1;
+			
+			beforeId1 = "#p" + beforePoint1;
+			$(beforeId1).children("b").remove("#p"+player1.afterPoint1);	
+			
+			afterPoint1 = beforePoint1 + totalran;
+			beforePoint1 = afterPoint1 - totalran;
+			
+			beforePoint1 = afterPoint1; //주사위를 던지고 나면 있던자리가 bP
+			turn++
+ 		}else if(turn == 2){/////////////////////////pppppppppp22222222222222
+			if (beforePoint2 + totalran < 40) { //37 + 10 = 47 < 40 
+				afterPoint2 = beforePoint2 + totalran; //47 = 37 + 10 
+			} else {
+				afterPoint2 = beforePoint2 + totalran - 40; // ap = 37 + 10 - 40
+			}
+			mywork = player2;
+			
+			afterId2 = "#p" + afterPoint2;
+			document.querySelector(afterId2).innerHTML ='<b class ="playerChar" id = "player2">🦍</b>';
+			
+			beforeId2 = "#p" + beforePoint2;
+			$(beforeId2).children("b").remove("#p"+player2.afterPoint2);	
+			
+			afterPoint2 = beforePoint2 + totalran;
+			beforePoint2 = afterPoint2 - totalran;
+			
+			beforePoint2 = afterPoint2; //주사위를 던지고 나면 있던자리가 bP
+			turn++
+		}else if(turn == 3){/////////////////////////pppppppppp3333333333333
+			if (beforePoint3 + totalran < 40) { //37 + 10 = 47 < 40 
+				afterPoint3 = beforePoint3 + totalran; //47 = 37 + 10  						
+			} else {
+				afterPoint3 = beforePoint3 + totalran - 40; // ap = 37 + 10 - 40
+			}
+			mywork = player3;
+		
+			afterId3 = "#p" + afterPoint3;
+			document.querySelector(afterId3).innerHTML ='<b class ="playerChar" id = "player3">🐥</b>';
+			
+			beforeId3 = "#p" + beforePoint3;
+			$(beforeId3).children("b").remove("#p"+player3.afterPoint3);	
+			
+			afterPoint3 = beforePoint3 + totalran;
+			beforePoint3 = afterPoint3 - totalran;
+			
+			beforePoint3 = afterPoint3; //주사위를 던지고 나면 있던자리가 bP
+			turn++
+		}else if(turn == 4){/////////////////////////pppppppppp4444444444444444444
+			console.log(player4);
+			if (beforePoint4 + totalran < 40) { //37 + 10 = 47 < 40 
+				afterPoint4 = beforePoint4 + totalran; //47 = 37 + 10 
+			} else {
+				afterPoint4 = beforePoint4 + totalran - 40; // ap = 37 + 10 - 40
+			}
+			mywork = player4;
+		
+			afterId4 = "#p" + afterPoint4;
+			document.querySelector(afterId4).innerHTML ='<b class ="playerChar" id = "player4">😼</b>';
+			
+			beforeId4 = "#p" + beforePoint4;
+			$(beforeId4).children("b").remove("#p"+player4.afterPoint4);	
+			
+			afterPoint4 = beforePoint4 + totalran;
+			beforePoint4 = afterPoint4 - totalran;
+			
+			beforePoint4 = afterPoint4; //주사위를 던지고 나면 있던자리가 bP
+			turn = 1;
+		} 
+	});
+					});
+
+});
+
+</script>
+
+</head>
+
+<body>
+	<div class="boaard_floor">
+		<div class="container" align="center">
+			<span><img name="mydice" src="/burumable/board/fcae1.png"></span>
+			<span><img name="mydice1" src="/burumable/board/fcae1.png"></span>
+			<h5>
+				Blue Marble <input id="play" type="button" value="주사위 play" /> 
+				주사위 값 : <input id="dice" type="text" />이동 지점 : <input id="point" type="text" />
+			</h5>
+
+			<div class="marble_board" align="center">
+
+				<div style="padding-left: 14px; padding-right: 18px; padding-top: 14px">
+<!-- 황금열쇠 3, 16, 23, 28, 33, 38 -->
+					<table class="table table-bordered">
+
+<!-------------------------------------------------------------------------------------------------------------- 맨 윗 줄 맵 -------------------------------------------------------------------------------------------------------------->
+						<tr height="158px">
+						
+							<td width="14%">21 <span id="p21"></span>
+
+							</td>
+
+							<td width="7.8%">22<span id="p22"></span>
+
+							</td>
+
+							<td width="7.8%">23<span id="p23"></span>
+
+							</td>
+
+							<td width="7.8%">24<span id="p24"></span>
+
+							</td>
+
+							<td width="7.5%">25<span id="p25"></span>
+
+							</td>
+
+							<td width="8%">26<span id="p26"></span>
+
+							</td>
+
+							<td width="7.5%">27<span id="p27"></span>
+
+							</td>
+
+							<td width="7.7%">28<span id="p28"></span>
+
+							</td>
+
+							<td width="7.9%">29<span id="p29"></span>
+
+							</td>
+
+							<td width="7.7%">30<span id="p30"></span>
+
+							</td>
+
+							<td width="14%">31<span id="p31"></span>
+
+							</td>
+
+						</tr>
+<!-------------------------------------------------------------------------------------------------------------- 맨 윗 줄 맵 -------------------------------------------------------------------------------------------------------------->
+						<tr height="88px">
+
+							<td>20<span id="p20"></span>
+
+							</td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td>32<span id="p32"></span>
+
+							</td>
+
+						</tr>
+
+						<tr height="88px">
+
+							<td>19<span id="p19"></span>
+
+							</td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td>33<span id="p33"></span>
+
+							</td>
+
+						</tr>
+
+						<tr height="88px">
+
+							<td>18<span id="p18"></span>
+
+							</td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td>34<span id="p34"></span>
+
+							</td>
+
+						</tr>
+
+						<tr height="88px">
+
+							<td>17<span id="p17"></span>
+
+							</td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class=" board_up_down">35<span id="p35"></span>
+
+							</td>
+
+						</tr>
+
+						<tr height="88px">
+
+							<td>16<span id="p16"></span>
+
+							</td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class=" board_up_down">36<span id="p36"></span>
+
+							</td>
+
+						</tr>
+
+						<tr height="88px">
+
+							<td>15<span id="p15"></span>
+
+							</td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class=" board_up_down">37<span id="p37"></span>
+
+							</td>
+
+						</tr>
+
+						<tr height="88px">
+
+							<td>14<span id="p14"></span>
+
+							</td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class=" board_up_down">38<span id="p38"></span>
+
+							</td>
+
+						</tr>
+
+						<tr height="88px">
+
+							<td>13<span id="p13"></span>
+
+							</td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border">
+
+							<td class="no_border">
+
+							<td class="no_border"></td>
+
+							<td class=" board_up_down">39<span id="p39"></span>
+
+							</td>
+
+						</tr>
+
+						<tr height="88px">
+
+							<td>12<span id="p12"></span>
+
+							</td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class="no_border"></td>
+
+							<td class=" board_up_down">40<span id="p40"></span>
+
+							</td>
+
+						</tr>
+<!-------------------------------------------------------------------------------------------------------------- 맨 아 랫 줄 맵 -------------------------------------------------------------------------------------------------------------->
+						<tr height="158px">
+
+							<td width="14%">11<span id="p11"></span>
+
+							</td>
+
+							<td width="7.8%">10<span id="p10"></span>
+
+							</td>
+
+							<td width="7.8%">9<span id="p9"></span>
+
+							</td>
+
+							<td width="7.8%">8<span id="p8"></span>
+
+							</td>
+
+							<td width="7.5%">7<span id="p7"></span>
+
+							</td>
+
+							<td width="8%">6<span id="p6"></span>
+
+							</td>
+
+							<td width="7.5%">5<span id="p5"></span>
+
+							</td>
+							
+							<td width="7.7%">4<span id="p4"></span>
+
+							</td>
+
+							<td width="7.9%">3<span id="p3"></span>
+
+							</td>
+
+							<td width="7.7%">2<span id="p2"></span>
+
+							</td>
+
+							<td width="14%">1<span id="p1">
+							<b class ="playerChar" id = "player1">🐶</b>
+							<b class ="playerChar" id = "player2">🦍</b>
+							<b class ="playerChar" id = "player3">🐥</b>
+							<b class ="playerChar" id = "player4">😼</b>
+							</span>
+									
+							</td>
+
+						</tr>
+
+					</table>
+
+				</div>
+
+			</div>
+
+
+
+		</div>
+
+
+
+
+
+
+
+	</div>
+
+</body>
+
+</html>
